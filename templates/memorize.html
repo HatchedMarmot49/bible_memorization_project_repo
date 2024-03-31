@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Web Page</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="{{url_for('serve_static', filename='css/styling.css')}}">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="verses.html">Find Verses</a>
+        <a href="memorize.html">Memorize Verses</a>
+    </nav>
+   <h1>This is the memorization page</h1>
+
+    <!-- Your content goes here -->
+    <p> this is the data: {{name}}</p>
+    <!-- Link to external JavaScript file -->
+    <script src="{{ url_for('serve_static', filename='js/script.js') }}"></script>
+</body>
+</html>
