@@ -7,13 +7,13 @@ app = Flask(__name__)
 @app.route("/")
 def hello_world():
     name = "Luke"
-    f = open("mock_db.json", "r")
-    db = json.load(f)
-    return render_template("index.html", name=db["key"])
+    return render_template("index.html", name=name)
 
 @app.route("/verses.html")
 def verses():
-    return render_template("verses.html")
+    f = open("mock_db.json", "r")
+    db = json.load(f)
+    return render_template("verses.html", db=db)
 
 @app.route("/memorize.html")
 def memorize():

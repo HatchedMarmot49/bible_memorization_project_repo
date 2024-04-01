@@ -16,7 +16,10 @@
    <h1>This is the verse selection page</h1>
 
     <!-- Your content goes here -->
-    <p> this is the data: {{name}}</p>
+    <p> 
+        Select the verses you would like to memorize: 
+        {{db}}
+    </p>
     <!-- Link to external JavaScript file -->
     <script src="{{ url_for('serve_static', filename='js/script.js') }}"></script>
 </body>
