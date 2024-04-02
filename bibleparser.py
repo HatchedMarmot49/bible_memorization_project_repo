@@ -30,4 +30,47 @@ def format(string):
     return string
 
 
-print(parsechapter("Genesis1.txt"))
+def theBigDog(file):
+    bible_dict = {}
+    f = open(file, "rb")
+    bible = f.readlines()
+    bible = [re.sub("\r\n", "", line.decode('utf-8')) for line in bible]
+
+    for idx in range(len(bible)-1):
+        x = 0
+        current = 0
+        curr_book = ''
+        curr_chapter = 0
+        #if is all upper, its a chapter heading
+        if bible[idx].isupper():
+            bible_dict[bible[idx]] = {}
+            curr_book = bible[idx]
+        #if p=5 and c=2, then we have an unneeded header
+        elif current==5 and bible[idx+1]=='' and bible[idx+2]=='':
+            continue
+        #if we hit a footnote
+        elif re.match(r'[\d+]', bible[idx]) or re.match('Chapter', bible[idx]):
+            continue
+        #we have an actual line
+        else:
+            #beginning of a chapter
+            if ':' in bible[idx]:
+                print(bible[idx])
+            if re.match('\d+?:', bible[idx]):
+                x+=1
+                sublst = bible[idx].split(':', maxsplit=1)
+                #remove colon
+                curr_chapter = sublst[0]
+                verse = sublst[1]
+                bible_dict[curr_book][curr_chapter] = {}
+
+        if bible[idx] =='':
+            current+=1
+        else:
+            current = 0
+
+    return bible_dict
+
+
+
+print(theBigDog("resources/esvBible.txt"))
