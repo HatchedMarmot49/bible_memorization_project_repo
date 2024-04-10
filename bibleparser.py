@@ -41,7 +41,7 @@ def theBigDog(file):
         current = 0
         curr_book = ''
         curr_chapter = 0
-        #if is all upper, its a chapter heading
+        #if is all upper, its a book heading
         if bible[idx].isupper():
             bible_dict[bible[idx]] = {}
             curr_book = bible[idx]
@@ -73,4 +73,4 @@ def theBigDog(file):
 
 
 
-print(theBigDog("resources/esvBible.txt"))
+# print(theBigDog("resources/esvBible.txt"))

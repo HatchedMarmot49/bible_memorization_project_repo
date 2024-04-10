@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, send_from_directory, json
 from flask_sqlalchemy import  SQLAlchemy
 from sqlalchemy import text
+import bibleparser
 
 app = Flask(__name__)
 
@@ -19,7 +20,53 @@ db = SQLAlchemy(app)
 class Test(db.Model):
     _id = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(100))
+    age = db.Column(db.Integer)
     email = db.Column(db.String(100))
+
+class book(db.Model):
+    __tablename__ = "book"
+    idBook = db.Column(db.Integer, primary_key = True)
+    bookName = db.Column(db.String(45))
+    testament = db.Column(db.String(45))
+    gospel = db.Column(db.Boolean)
+    epistle = db.Column(db.Boolean)
+
+
+
+@app.route('/createbooks')
+def create_tables():
+    db.create_all()
+
+    # Example: Add data to the table
+    counter = 1
+    test = "old"
+    books = []
+    gospel = False
+    epistle = False
+    bible_dict = bibleparser.theBigDog("resources/esvBible.txt")
+    for bk in bible_dict:
+        print(bk)
+        if bk == "MATTHEW":
+            test = "new"
+        if bk == "ROMANS":
+            epistle = True
+        if bk == "REVELATION":
+            epistle = False
+        if bk in ["MATTHEW", "MARK", "LUKE", "JOHN"]:
+            gospel = True
+        
+        curbook = book(idBook=counter, bookName=bk, testament=test, gospel=gospel, epistle=epistle)
+        db.session.add(curbook)
+        counter+=1
+        gospel = False
+   
+   #uncomment to commit all bible books to the database
+    # db.session.commit()
+
+    # Close the database connection
+    db.session.close()
+
+    return f'check db'
 
 @app.route("/")
 def hello_world():
